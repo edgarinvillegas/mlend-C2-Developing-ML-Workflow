@@ -74,4 +74,4 @@ if __name__ == "__main__":
     unzipped_path = unzip_data('/opt/ml/processing/input/reviews_Musical_Instruments_5.json.zip')
     labeled_data = label_data(unzipped_path)
     new_split_sentence_data = split_sentences(labeled_data)
-    write_data(new_split_sentence_data, '/opt/ml/processing/output/train/hello_blaze_train_scikit', '/opt/ml/processing/output/test/hello_blaze_test_scikit', .9)
+    write_data(new_split_sentence_data, '/opt/ml/processing/output/train/hello_blaze_train_scikit.txt', '/opt/ml/processing/output/test/hello_blaze_test_scikit.txt', .9)
