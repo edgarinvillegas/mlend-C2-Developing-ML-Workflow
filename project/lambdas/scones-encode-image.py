@@ -1,0 +1,39 @@
+import json
+import boto3
+import base64
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+    """A function to serialize target data from S3
+    :param event: {
+      "s3_bucket": "project2-scones",
+      "s3_key": "test/bicycle_s_000513.png"
+    }
+    
+    """
+
+    # Get the s3 address from the Step Function event input
+    key = event['s3_key']
+    bucket = event['s3_bucket']
+
+    # Download the data from s3 to /tmp/image.png
+    local_temp_path = '/tmp/image.png'
+    s3_client = boto3.client('s3')
+    s3_client.download_file(bucket, key, local_temp_path)
+
+    # We read the data from a file
+    with open(local_temp_path, "rb") as f:
+        image_data = base64.b64encode(f.read())
+
+    # Pass the data back to the Step Function
+    print("Event:", event.keys())
+    return {
+        'statusCode': 200,
+        'body': {
+            "image_data": image_data,
+            "s3_bucket": bucket,
+            "s3_key": key,
+            # "inferences": []
+        }
+    }
