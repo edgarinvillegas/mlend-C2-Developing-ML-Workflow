@@ -27,7 +27,7 @@ def lambda_handler(event, context):
         image_data = base64.b64encode(f.read())
 
     # Pass the data back to the Step Function
-    print("Event:", event.keys())
+    # print("Event:", event.keys())
     return {
         'statusCode': 200,
         'body': {
