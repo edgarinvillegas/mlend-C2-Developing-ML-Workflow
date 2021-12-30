@@ -32,8 +32,8 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': {
             "image_data": image_data,
-            "s3_bucket": bucket,
-            "s3_key": key,
+            # "s3_bucket": bucket,
+            # "s3_key": key,
             # "inferences": []
         }
     }

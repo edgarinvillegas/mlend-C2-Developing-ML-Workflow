@@ -5,6 +5,7 @@ import base64
 from sagemaker.serializers import IdentitySerializer
 from sagemaker.predictor import Predictor
 
+
 def lambda_handler(event, context):
     '''
     :param event: {
@@ -14,8 +15,8 @@ def lambda_handler(event, context):
       }
     '''
     # Fill this in with the name of your deployed model
-    endpoint = event.get('endpoint') or os.getenv('ENDPOINT') or 'image-classification-2021-12-29-01-44-15-302'
-    
+    endpoint = event.get('endpoint') or os.getenv('ENDPOINT')
+
     # Decode the image data
     image = base64.b64decode(event['image_data'])
 
@@ -31,8 +32,10 @@ def lambda_handler(event, context):
     inferences = predictor.predict(image)
 
     # We return the data back to the Step Function
-    event["inferences"] = inferences.decode('utf-8')
+    # event["inferences"] = inferences.decode('utf-8')
     return {
         'statusCode': 200,
-        'body': json.dumps(event)
+        'body': {
+            'inferences': inferences.decode('utf-8')
+        }
     }
